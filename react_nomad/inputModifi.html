@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const DOM = ReactDOM.createRoot(document.getElementById("root"));
+    function App() {
+      const [minutes, setMinutes] = React.useState(0);
+      const onChange = (evnet) => {
+        //** js에서 event란
+        setMinutes(event.target.value); // 1. event가 발생했을 때 읽고, 업데이트 해 주는 것이 필요
+      };
+      const reset = () => {
+        setMinutes(0);
+      };
+      return (
+        <div>
+          <div>
+            <h1>Super Converter</h1>
+            {/* lable과 input을 연결시키기 위해 htmlFor을 작성.*/}
+            <lable htmlFor="Minutes">Minutes</lable>
+            <input // 2. UI에 보여주는 것이 필요
+              value={minutes}
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange} //data 업데이트 하기
+            />
+            <h4>You want to convert {minutes}</h4>
+          </div>
+          <div>
+            <lable htmlFor="Hours">Hours</lable>
+            <input
+              value={Math.round(minutes / 60)}
+              id="hours"
+              placeholder="Hours"
+              type="number"
+              onChange={onChange}
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+        </div>
+      );
+    }
+    //아래 코드는 id=root인 div안에 javaScript로 적은 내용을 DOM -> Html로 렌더링하기 위해서 적는 코드
+    const root = document.getElementById("root"); //id가 root인 애를 가져와서 일단 저장해 둬
+    ReactDOM.render(<App />, root); //그리고 렌더링 할 거니까 어떤 것을 어디 위치에 HTMl로 바꾸어 넣어줄 건지 적어줘.
+  </script>
+</html>

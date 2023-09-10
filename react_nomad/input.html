@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const DOM = ReactDOM.createRoot(document.getElementById("root"));
+    function App() {
+      const [amount, setAmount] = React.useState("");
+      const [inverted, setInverted] = React.useState(false);
+      const onChange = (event) => {
+        //우리가 입력한 값을 state에 전달하는 함수
+        setAmount(event.target.value);
+      };
+      const reset = () => setAmount(0);
+      const onInvert = () => {
+        reset();
+        setInverted((current) => !current);
+      };
+      return (
+        <div>
+          <div>
+            <h1 className="hi">Super Convert</h1>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              value={inverted ? amount * 60 : amount} //input의 value를 state로 연결. - 외부에서 값을 변경할 수 있도록
+              // inverted == false 뒤집혀 져 있나? 아니, 그럼 내가 쓴 값을 보줘.
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange} //upgrade data(input에서 리스닝하는 data)
+              // disabled={inverted === true}
+              disabled={inverted}
+              // inverted === true 일 때, 안 보이게 할 거야. defalut는 false 이므로 지금은 보여줘(abled)
+            />
+          </div>
+          <h4>You want to convert {amount} </h4>
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              value={inverted ? amount : Math.round(amount / 60)}
+              id="hours"
+              placeholder="Hours"
+              type="number"
+              //disabled={inverted == false}
+              onChange={onChange}
+              disabled={!inverted}
+            ></input>
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onInvert}>
+            {inverted ? "Turn Back" : "invert"}
+          </button>
+        </div>
+      );
+    }
+    const root = document.getElementById("root"); //id가 root인 애를 가져와서 일단 저장해 둬
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
